@@ -1,0 +1,2341 @@
+{
+    "name": "AI Property Insight",
+    "flow": [
+        {
+            "id": 11,
+            "module": "tally:watchNewResponse",
+            "version": 1,
+            "parameters": {
+                "__IMTHOOK__": 1068000
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTHOOK__": {
+                            "data": {
+                                "editable": "false"
+                            },
+                            "label": "AI Property Insight"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTHOOK__",
+                        "type": "hook:tally",
+                        "label": "Webhook",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "eventId",
+                        "type": "text",
+                        "label": "Event ID"
+                    },
+                    {
+                        "name": "responseId",
+                        "type": "text",
+                        "label": "Response ID"
+                    },
+                    {
+                        "name": "submissionId",
+                        "type": "text",
+                        "label": "Submission ID"
+                    },
+                    {
+                        "name": "respondentId",
+                        "type": "text",
+                        "label": "Respondent ID"
+                    },
+                    {
+                        "name": "formId",
+                        "type": "text",
+                        "label": "Form ID"
+                    },
+                    {
+                        "name": "formName",
+                        "type": "text",
+                        "label": "Form Name"
+                    },
+                    {
+                        "name": "createdAt",
+                        "type": "date",
+                        "label": "Created at"
+                    },
+                    {
+                        "name": "fields",
+                        "spec": [],
+                        "type": "collection",
+                        "label": "Fields"
+                    },
+                    {
+                        "name": "fieldsById",
+                        "spec": [],
+                        "type": "collection",
+                        "label": "Fields by ID"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "module": "google-maps:searchForPlaces",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "input": "{{11.fields.Address}}, {{11.fields.`Town / City`}}, {{11.fields.Postcode}}, {{11.fields.Country}}",
+                "limit": "1",
+                "select": "text"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0,
+                    "name": "Latitude and Longitude"
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Empty"
+                        },
+                        "select": {
+                            "label": "By Text Search"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Find Places",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "nearby",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "minprice",
+                        "type": "uinteger",
+                        "label": "Minimum Price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "maxprice",
+                        "type": "uinteger",
+                        "label": "Maximum price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "accounting",
+                                "airport",
+                                "amusement_park",
+                                "aquarium",
+                                "art_gallery",
+                                "atm",
+                                "bakery",
+                                "bank",
+                                "bar",
+                                "beauty_salon",
+                                "bicycle_store",
+                                "book_store",
+                                "bowling_alley",
+                                "bus_station",
+                                "cafe",
+                                "campground",
+                                "car_dealer",
+                                "car_rental",
+                                "car_repair",
+                                "car_wash",
+                                "casino",
+                                "cemetery",
+                                "church",
+                                "city_hall",
+                                "clothing_store",
+                                "convenience_store",
+                                "courthouse",
+                                "dentist",
+                                "department_store",
+                                "doctor",
+                                "drugstore",
+                                "electrician",
+                                "electronics_store",
+                                "embassy",
+                                "fire_station",
+                                "florist",
+                                "funeral_home",
+                                "furniture_store",
+                                "gas_station",
+                                "grocery_or_supermarket",
+                                "gym",
+                                "hair_care",
+                                "hardware_store",
+                                "hindu_temple",
+                                "home_goods_store",
+                                "hospital",
+                                "insurance_agency",
+                                "jewelry_store",
+                                "laundry",
+                                "lawyer",
+                                "library",
+                                "light_rail_station",
+                                "liquor_store",
+                                "local_government_office",
+                                "locksmith",
+                                "lodging",
+                                "meal_delivery",
+                                "meal_takeaway",
+                                "mosque",
+                                "movie_rental",
+                                "movie_theater",
+                                "moving_company",
+                                "museum",
+                                "night_club",
+                                "painter",
+                                "park",
+                                "parking",
+                                "pet_store",
+                                "pharmacy",
+                                "physiotherapist",
+                                "plumber",
+                                "police",
+                                "post_office",
+                                "primary_school",
+                                "real_estate_agency",
+                                "restaurant",
+                                "roofing_contractor",
+                                "rv_park",
+                                "school",
+                                "secondary_school",
+                                "shoe_store",
+                                "shopping_mall",
+                                "spa",
+                                "stadium",
+                                "storage",
+                                "store",
+                                "subway_station",
+                                "supermarket",
+                                "synagogue",
+                                "taxi_stand",
+                                "tourist_attraction",
+                                "train_station",
+                                "transit_station",
+                                "travel_agency",
+                                "university",
+                                "veterinary_care",
+                                "zoo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "input",
+                        "type": "text",
+                        "label": "Query Search For Places",
+                        "required": true
+                    },
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Find Places",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "nearby",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "minprice",
+                        "type": "uinteger",
+                        "label": "Minimum Price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "maxprice",
+                        "type": "uinteger",
+                        "label": "Maximum price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "accounting",
+                                "airport",
+                                "amusement_park",
+                                "aquarium",
+                                "art_gallery",
+                                "atm",
+                                "bakery",
+                                "bank",
+                                "bar",
+                                "beauty_salon",
+                                "bicycle_store",
+                                "book_store",
+                                "bowling_alley",
+                                "bus_station",
+                                "cafe",
+                                "campground",
+                                "car_dealer",
+                                "car_rental",
+                                "car_repair",
+                                "car_wash",
+                                "casino",
+                                "cemetery",
+                                "church",
+                                "city_hall",
+                                "clothing_store",
+                                "convenience_store",
+                                "courthouse",
+                                "dentist",
+                                "department_store",
+                                "doctor",
+                                "drugstore",
+                                "electrician",
+                                "electronics_store",
+                                "embassy",
+                                "fire_station",
+                                "florist",
+                                "funeral_home",
+                                "furniture_store",
+                                "gas_station",
+                                "grocery_or_supermarket",
+                                "gym",
+                                "hair_care",
+                                "hardware_store",
+                                "hindu_temple",
+                                "home_goods_store",
+                                "hospital",
+                                "insurance_agency",
+                                "jewelry_store",
+                                "laundry",
+                                "lawyer",
+                                "library",
+                                "light_rail_station",
+                                "liquor_store",
+                                "local_government_office",
+                                "locksmith",
+                                "lodging",
+                                "meal_delivery",
+                                "meal_takeaway",
+                                "mosque",
+                                "movie_rental",
+                                "movie_theater",
+                                "moving_company",
+                                "museum",
+                                "night_club",
+                                "painter",
+                                "park",
+                                "parking",
+                                "pet_store",
+                                "pharmacy",
+                                "physiotherapist",
+                                "plumber",
+                                "police",
+                                "post_office",
+                                "primary_school",
+                                "real_estate_agency",
+                                "restaurant",
+                                "roofing_contractor",
+                                "rv_park",
+                                "school",
+                                "secondary_school",
+                                "shoe_store",
+                                "shopping_mall",
+                                "spa",
+                                "stadium",
+                                "storage",
+                                "store",
+                                "subway_station",
+                                "supermarket",
+                                "synagogue",
+                                "taxi_stand",
+                                "tourist_attraction",
+                                "train_station",
+                                "transit_station",
+                                "travel_agency",
+                                "university",
+                                "veterinary_care",
+                                "zoo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "input",
+                        "type": "text",
+                        "label": "Query Search For Places",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 12,
+            "module": "google-maps:getAMapImage",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "lat": "{{1.geometry.location.lat}}",
+                "long": "{{1.geometry.location.lng}}",
+                "zoom": "20",
+                "format": "png32",
+                "select": "geo",
+                "maptype": "satellite",
+                "imageSize": {
+                    "width": "300",
+                    "height": "300"
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0,
+                    "name": "Location Image"
+                },
+                "restore": {
+                    "expect": {
+                        "format": {
+                            "label": ".png"
+                        },
+                        "select": {
+                            "label": "Geographic Coordinates"
+                        },
+                        "maptype": {
+                            "label": "Satellite"
+                        },
+                        "markers": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Input Format of Center Location",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "address",
+                                "geo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "zoom",
+                        "type": "uinteger",
+                        "label": "Zoom",
+                        "required": true,
+                        "validate": {
+                            "max": 21,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "imageSize",
+                        "spec": [
+                            {
+                                "name": "width",
+                                "type": "uinteger",
+                                "label": "Width",
+                                "required": true,
+                                "validate": {
+                                    "max": 2048,
+                                    "min": 0
+                                }
+                            },
+                            {
+                                "name": "height",
+                                "type": "uinteger",
+                                "label": "Height",
+                                "required": true,
+                                "validate": {
+                                    "max": 2048,
+                                    "min": 0
+                                }
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Image Size"
+                    },
+                    {
+                        "name": "markers",
+                        "spec": [
+                            {
+                                "name": "select",
+                                "type": "select",
+                                "label": "Add Markers",
+                                "options": [
+                                    {
+                                        "label": "By Address",
+                                        "value": "address",
+                                        "nested": [
+                                            {
+                                                "name": "address",
+                                                "type": "text",
+                                                "label": "Address",
+                                                "required": true
+                                            }
+                                        ],
+                                        "default": true
+                                    },
+                                    {
+                                        "label": "By Geographic Coordinates",
+                                        "value": "geo",
+                                        "nested": [
+                                            {
+                                                "name": "lat",
+                                                "type": "number",
+                                                "label": "Latitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 90,
+                                                    "min": -90
+                                                }
+                                            },
+                                            {
+                                                "name": "long",
+                                                "type": "number",
+                                                "label": "Longitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 180,
+                                                    "min": -180
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "required": true
+                            },
+                            {
+                                "name": "size",
+                                "type": "select",
+                                "label": "Size",
+                                "options": [
+                                    {
+                                        "label": "Tiny",
+                                        "value": "tiny"
+                                    },
+                                    {
+                                        "label": "Mid",
+                                        "value": "mid",
+                                        "nested": [
+                                            {
+                                                "help": "Only single uppercase alphabet letter or single number is allowed. \n`[A-Z][0-9]`",
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label",
+                                                "validate": {
+                                                    "max": 1,
+                                                    "min": 0
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "label": "Small",
+                                        "value": "small"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "color",
+                                "type": "select",
+                                "label": "Color",
+                                "options": [
+                                    {
+                                        "label": "Black",
+                                        "value": "black"
+                                    },
+                                    {
+                                        "label": "Brown",
+                                        "value": "brown"
+                                    },
+                                    {
+                                        "label": "Green",
+                                        "value": "green"
+                                    },
+                                    {
+                                        "label": "Purple",
+                                        "value": "purple"
+                                    },
+                                    {
+                                        "label": "Yellow",
+                                        "value": "yellow"
+                                    },
+                                    {
+                                        "label": "Blue",
+                                        "value": "blue"
+                                    },
+                                    {
+                                        "label": "Gray",
+                                        "value": "gray"
+                                    },
+                                    {
+                                        "label": "Orange",
+                                        "value": "orange"
+                                    },
+                                    {
+                                        "label": "Red",
+                                        "value": "red"
+                                    },
+                                    {
+                                        "label": "White",
+                                        "value": "white"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Markers"
+                    },
+                    {
+                        "name": "format",
+                        "type": "select",
+                        "label": "Image Format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "png32",
+                                "jpg"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "maptype",
+                        "type": "select",
+                        "label": "Map Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roadmap",
+                                "satellite",
+                                "terrain",
+                                "hybrid"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "lat",
+                        "type": "number",
+                        "label": "Latitude",
+                        "required": true,
+                        "validate": {
+                            "max": 90,
+                            "min": -90
+                        }
+                    },
+                    {
+                        "name": "long",
+                        "type": "number",
+                        "label": "Longitude",
+                        "required": true,
+                        "validate": {
+                            "max": 180,
+                            "min": -180
+                        }
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 2,
+            "module": "google-maps:searchForPlaces",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "lat": "{{1.geometry.location.lat}}",
+                "long": "{{1.geometry.location.lng}}",
+                "type": "school",
+                "limit": "1",
+                "radius": "1000",
+                "select": "nearby"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0,
+                    "name": "Nearest School"
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "School"
+                        },
+                        "select": {
+                            "label": "By Nearby Search"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Find Places",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "nearby",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "minprice",
+                        "type": "uinteger",
+                        "label": "Minimum Price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "maxprice",
+                        "type": "uinteger",
+                        "label": "Maximum price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "accounting",
+                                "airport",
+                                "amusement_park",
+                                "aquarium",
+                                "art_gallery",
+                                "atm",
+                                "bakery",
+                                "bank",
+                                "bar",
+                                "beauty_salon",
+                                "bicycle_store",
+                                "book_store",
+                                "bowling_alley",
+                                "bus_station",
+                                "cafe",
+                                "campground",
+                                "car_dealer",
+                                "car_rental",
+                                "car_repair",
+                                "car_wash",
+                                "casino",
+                                "cemetery",
+                                "church",
+                                "city_hall",
+                                "clothing_store",
+                                "convenience_store",
+                                "courthouse",
+                                "dentist",
+                                "department_store",
+                                "doctor",
+                                "drugstore",
+                                "electrician",
+                                "electronics_store",
+                                "embassy",
+                                "fire_station",
+                                "florist",
+                                "funeral_home",
+                                "furniture_store",
+                                "gas_station",
+                                "grocery_or_supermarket",
+                                "gym",
+                                "hair_care",
+                                "hardware_store",
+                                "hindu_temple",
+                                "home_goods_store",
+                                "hospital",
+                                "insurance_agency",
+                                "jewelry_store",
+                                "laundry",
+                                "lawyer",
+                                "library",
+                                "light_rail_station",
+                                "liquor_store",
+                                "local_government_office",
+                                "locksmith",
+                                "lodging",
+                                "meal_delivery",
+                                "meal_takeaway",
+                                "mosque",
+                                "movie_rental",
+                                "movie_theater",
+                                "moving_company",
+                                "museum",
+                                "night_club",
+                                "painter",
+                                "park",
+                                "parking",
+                                "pet_store",
+                                "pharmacy",
+                                "physiotherapist",
+                                "plumber",
+                                "police",
+                                "post_office",
+                                "primary_school",
+                                "real_estate_agency",
+                                "restaurant",
+                                "roofing_contractor",
+                                "rv_park",
+                                "school",
+                                "secondary_school",
+                                "shoe_store",
+                                "shopping_mall",
+                                "spa",
+                                "stadium",
+                                "storage",
+                                "store",
+                                "subway_station",
+                                "supermarket",
+                                "synagogue",
+                                "taxi_stand",
+                                "tourist_attraction",
+                                "train_station",
+                                "transit_station",
+                                "travel_agency",
+                                "university",
+                                "veterinary_care",
+                                "zoo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "lat",
+                        "type": "number",
+                        "label": "Latitude",
+                        "required": true,
+                        "validate": {
+                            "max": 90,
+                            "min": -90
+                        }
+                    },
+                    {
+                        "name": "long",
+                        "type": "number",
+                        "label": "Longitude",
+                        "required": true,
+                        "validate": {
+                            "max": 180,
+                            "min": -180
+                        }
+                    },
+                    {
+                        "name": "radius",
+                        "type": "number",
+                        "required": true,
+                        "validate": {
+                            "max": 50000,
+                            "min": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "google-maps:searchForPlaces",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "lat": "{{2.geometry.location.lat}}",
+                "long": "{{2.geometry.location.lng}}",
+                "type": "shopping_mall",
+                "limit": "1",
+                "radius": "2000",
+                "select": "nearby"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 0,
+                    "name": "Nearest Shopping Mall"
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Shopping mall"
+                        },
+                        "select": {
+                            "label": "By Nearby Search"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Find Places",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "nearby",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "minprice",
+                        "type": "uinteger",
+                        "label": "Minimum Price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "maxprice",
+                        "type": "uinteger",
+                        "label": "Maximum price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "accounting",
+                                "airport",
+                                "amusement_park",
+                                "aquarium",
+                                "art_gallery",
+                                "atm",
+                                "bakery",
+                                "bank",
+                                "bar",
+                                "beauty_salon",
+                                "bicycle_store",
+                                "book_store",
+                                "bowling_alley",
+                                "bus_station",
+                                "cafe",
+                                "campground",
+                                "car_dealer",
+                                "car_rental",
+                                "car_repair",
+                                "car_wash",
+                                "casino",
+                                "cemetery",
+                                "church",
+                                "city_hall",
+                                "clothing_store",
+                                "convenience_store",
+                                "courthouse",
+                                "dentist",
+                                "department_store",
+                                "doctor",
+                                "drugstore",
+                                "electrician",
+                                "electronics_store",
+                                "embassy",
+                                "fire_station",
+                                "florist",
+                                "funeral_home",
+                                "furniture_store",
+                                "gas_station",
+                                "grocery_or_supermarket",
+                                "gym",
+                                "hair_care",
+                                "hardware_store",
+                                "hindu_temple",
+                                "home_goods_store",
+                                "hospital",
+                                "insurance_agency",
+                                "jewelry_store",
+                                "laundry",
+                                "lawyer",
+                                "library",
+                                "light_rail_station",
+                                "liquor_store",
+                                "local_government_office",
+                                "locksmith",
+                                "lodging",
+                                "meal_delivery",
+                                "meal_takeaway",
+                                "mosque",
+                                "movie_rental",
+                                "movie_theater",
+                                "moving_company",
+                                "museum",
+                                "night_club",
+                                "painter",
+                                "park",
+                                "parking",
+                                "pet_store",
+                                "pharmacy",
+                                "physiotherapist",
+                                "plumber",
+                                "police",
+                                "post_office",
+                                "primary_school",
+                                "real_estate_agency",
+                                "restaurant",
+                                "roofing_contractor",
+                                "rv_park",
+                                "school",
+                                "secondary_school",
+                                "shoe_store",
+                                "shopping_mall",
+                                "spa",
+                                "stadium",
+                                "storage",
+                                "store",
+                                "subway_station",
+                                "supermarket",
+                                "synagogue",
+                                "taxi_stand",
+                                "tourist_attraction",
+                                "train_station",
+                                "transit_station",
+                                "travel_agency",
+                                "university",
+                                "veterinary_care",
+                                "zoo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "lat",
+                        "type": "number",
+                        "label": "Latitude",
+                        "required": true,
+                        "validate": {
+                            "max": 90,
+                            "min": -90
+                        }
+                    },
+                    {
+                        "name": "long",
+                        "type": "number",
+                        "label": "Longitude",
+                        "required": true,
+                        "validate": {
+                            "max": 180,
+                            "min": -180
+                        }
+                    },
+                    {
+                        "name": "radius",
+                        "type": "number",
+                        "required": true,
+                        "validate": {
+                            "max": 50000,
+                            "min": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "module": "google-maps:searchForPlaces",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "lat": "{{2.geometry.location.lat}}",
+                "long": "{{2.geometry.location.lng}}",
+                "type": "hospital",
+                "limit": "1",
+                "radius": "1000",
+                "select": "nearby"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 0,
+                    "name": "Nearest Hospital"
+                },
+                "restore": {
+                    "expect": {
+                        "type": {
+                            "mode": "chose",
+                            "label": "Hospital"
+                        },
+                        "select": {
+                            "label": "By Nearby Search"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Find Places",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "nearby",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "minprice",
+                        "type": "uinteger",
+                        "label": "Minimum Price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "maxprice",
+                        "type": "uinteger",
+                        "label": "Maximum price",
+                        "validate": {
+                            "max": 4,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "type": "select",
+                        "label": "Type",
+                        "validate": {
+                            "enum": [
+                                "accounting",
+                                "airport",
+                                "amusement_park",
+                                "aquarium",
+                                "art_gallery",
+                                "atm",
+                                "bakery",
+                                "bank",
+                                "bar",
+                                "beauty_salon",
+                                "bicycle_store",
+                                "book_store",
+                                "bowling_alley",
+                                "bus_station",
+                                "cafe",
+                                "campground",
+                                "car_dealer",
+                                "car_rental",
+                                "car_repair",
+                                "car_wash",
+                                "casino",
+                                "cemetery",
+                                "church",
+                                "city_hall",
+                                "clothing_store",
+                                "convenience_store",
+                                "courthouse",
+                                "dentist",
+                                "department_store",
+                                "doctor",
+                                "drugstore",
+                                "electrician",
+                                "electronics_store",
+                                "embassy",
+                                "fire_station",
+                                "florist",
+                                "funeral_home",
+                                "furniture_store",
+                                "gas_station",
+                                "grocery_or_supermarket",
+                                "gym",
+                                "hair_care",
+                                "hardware_store",
+                                "hindu_temple",
+                                "home_goods_store",
+                                "hospital",
+                                "insurance_agency",
+                                "jewelry_store",
+                                "laundry",
+                                "lawyer",
+                                "library",
+                                "light_rail_station",
+                                "liquor_store",
+                                "local_government_office",
+                                "locksmith",
+                                "lodging",
+                                "meal_delivery",
+                                "meal_takeaway",
+                                "mosque",
+                                "movie_rental",
+                                "movie_theater",
+                                "moving_company",
+                                "museum",
+                                "night_club",
+                                "painter",
+                                "park",
+                                "parking",
+                                "pet_store",
+                                "pharmacy",
+                                "physiotherapist",
+                                "plumber",
+                                "police",
+                                "post_office",
+                                "primary_school",
+                                "real_estate_agency",
+                                "restaurant",
+                                "roofing_contractor",
+                                "rv_park",
+                                "school",
+                                "secondary_school",
+                                "shoe_store",
+                                "shopping_mall",
+                                "spa",
+                                "stadium",
+                                "storage",
+                                "store",
+                                "subway_station",
+                                "supermarket",
+                                "synagogue",
+                                "taxi_stand",
+                                "tourist_attraction",
+                                "train_station",
+                                "transit_station",
+                                "travel_agency",
+                                "university",
+                                "veterinary_care",
+                                "zoo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "lat",
+                        "type": "number",
+                        "label": "Latitude",
+                        "required": true,
+                        "validate": {
+                            "max": 90,
+                            "min": -90
+                        }
+                    },
+                    {
+                        "name": "long",
+                        "type": "number",
+                        "label": "Longitude",
+                        "required": true,
+                        "validate": {
+                            "max": 180,
+                            "min": -180
+                        }
+                    },
+                    {
+                        "name": "radius",
+                        "type": "number",
+                        "required": true,
+                        "validate": {
+                            "max": 50000,
+                            "min": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 14,
+            "module": "google-maps:getAnElevation",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "lat": "{{1.geometry.location.lat}}",
+                "long": "{{1.geometry.location.lng}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1800,
+                    "y": 0,
+                    "name": "Property Elevation"
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "lat",
+                        "type": "number",
+                        "label": "Latitude",
+                        "required": true,
+                        "validate": {
+                            "max": 90,
+                            "min": -90
+                        }
+                    },
+                    {
+                        "name": "long",
+                        "type": "number",
+                        "label": "Longitude",
+                        "required": true,
+                        "validate": {
+                            "max": 180,
+                            "min": -180
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 8,
+            "module": "google-maps:getADistanceMatrix",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 3290000
+            },
+            "mapper": {
+                "mode": "driving",
+                "units": "metric",
+                "origins": [
+                    {
+                        "lat": "{{1.geometry.location.lat}}",
+                        "long": "{{1.geometry.location.lng}}",
+                        "select": "geo"
+                    }
+                ],
+                "destinations": [
+                    {
+                        "lat": "{{5.geometry.location.lat}}",
+                        "long": "{{5.geometry.location.lng}}",
+                        "select": "geo"
+                    },
+                    {
+                        "lat": "{{4.geometry.location.lat}}",
+                        "long": "{{4.geometry.location.lng}}",
+                        "select": "geo"
+                    },
+                    {
+                        "lat": "{{2.geometry.location.lat}}",
+                        "long": "{{2.geometry.location.lng}}",
+                        "select": "geo"
+                    }
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2100,
+                    "y": 0,
+                    "name": "Get Distance Matrix"
+                },
+                "restore": {
+                    "expect": {
+                        "mode": {
+                            "label": "Driving"
+                        },
+                        "avoid": {
+                            "mode": "chose"
+                        },
+                        "units": {
+                            "label": "Metric (km or m)"
+                        },
+                        "define": {
+                            "label": "Empty"
+                        },
+                        "origins": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "select": {
+                                        "mode": "chose",
+                                        "label": "By Input Geographic Coordinates"
+                                    }
+                                }
+                            ]
+                        },
+                        "destinations": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "select": {
+                                        "mode": "chose",
+                                        "label": "By Input Geographic Coordinates"
+                                    }
+                                },
+                                {
+                                    "select": {
+                                        "mode": "chose",
+                                        "label": "By Input Geographic Coordinates"
+                                    }
+                                },
+                                {
+                                    "select": {
+                                        "mode": "chose",
+                                        "label": "By Input Geographic Coordinates"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-maps"
+                            },
+                            "label": "Nina Pioquinto Maps"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-maps",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "origins",
+                        "spec": [
+                            {
+                                "name": "select",
+                                "type": "select",
+                                "label": "Add Origins",
+                                "options": [
+                                    {
+                                        "label": "By Input Text",
+                                        "value": "text",
+                                        "nested": [
+                                            {
+                                                "name": "text",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true
+                                            }
+                                        ],
+                                        "default": true
+                                    },
+                                    {
+                                        "label": "By Input Geographic Coordinates",
+                                        "value": "geo",
+                                        "nested": [
+                                            {
+                                                "name": "lat",
+                                                "type": "number",
+                                                "label": "Latitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 90,
+                                                    "min": -90
+                                                }
+                                            },
+                                            {
+                                                "name": "long",
+                                                "type": "number",
+                                                "label": "Longitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 180,
+                                                    "min": -180
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "required": true
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Origins",
+                        "required": true
+                    },
+                    {
+                        "name": "destinations",
+                        "spec": [
+                            {
+                                "name": "select",
+                                "type": "select",
+                                "label": "Add Destinations",
+                                "options": [
+                                    {
+                                        "label": "By Input Text",
+                                        "value": "text",
+                                        "nested": [
+                                            {
+                                                "name": "text",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true
+                                            }
+                                        ],
+                                        "default": true
+                                    },
+                                    {
+                                        "label": "By Input Geographic Coordinates",
+                                        "value": "geo",
+                                        "nested": [
+                                            {
+                                                "name": "lat",
+                                                "type": "number",
+                                                "label": "Latitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 90,
+                                                    "min": -90
+                                                }
+                                            },
+                                            {
+                                                "name": "long",
+                                                "type": "number",
+                                                "label": "Longitude",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 180,
+                                                    "min": -180
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "required": true
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Destinations",
+                        "required": true
+                    },
+                    {
+                        "name": "mode",
+                        "type": "select",
+                        "label": "Travel Mode",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "driving",
+                                "walking",
+                                "bicycling",
+                                "transit"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "avoid",
+                        "type": "select",
+                        "label": "Avoid",
+                        "multiple": true,
+                        "validate": {
+                            "enum": [
+                                "tolls",
+                                "highways",
+                                "ferries",
+                                "indoor"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "units",
+                        "type": "select",
+                        "label": "Units",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "metric",
+                                "imperial"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "define",
+                        "type": "select",
+                        "label": "Define Time",
+                        "validate": {
+                            "enum": [
+                                "departure",
+                                "arrival"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 2356000
+            },
+            "mapper": {
+                "model": "gpt-4o-mini",
+                "top_p": "1",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a property ranking specialist. You are able to rank properties from 1 (bad) to 10 (good) based on whether they are good or bad to purchase."
+                    },
+                    {
+                        "role": "assistant",
+                        "content": "The user has input information about the chosen property.\n\nYou must output your conclusion in JSON format as shown below:\n\n{\n\"ranking\":1/2/3/4/5/6/7/8/9/10,\n\"reason\":\"\"\n}\n\nYou must include a detailed 3 paragraph reason as to why you have chosen that ranking."
+                    },
+                    {
+                        "role": "user",
+                        "content": "Distance Matrix of Nearest Amenities (by car)\nDistance: {{8.elements[].distance.text}}\nDuration: {{8.elements[].duration.text}}\nDuration in Traffic: {{8.elements[].duration_in_traffic.text}}\nDuration in Fare: {{8.elements[].fare.text}}\n\nProperty Elevation: {{14.elevation}}"
+                    }
+                ],
+                "max_tokens": "0",
+                "temperature": "0.1",
+                "n_completions": "1",
+                "response_format": "json_object",
+                "parseJSONResponse": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2400,
+                    "y": 0,
+                    "name": "Evaluate Property"
+                },
+                "restore": {
+                    "expect": {
+                        "stop": {
+                            "mode": "chose"
+                        },
+                        "model": {
+                            "mode": "chose",
+                            "label": "gpt-4o-mini (system)"
+                        },
+                        "select": {
+                            "label": "Create a Chat Completion (GPT Models)"
+                        },
+                        "messages": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "System"
+                                    }
+                                },
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "Assistant"
+                                    }
+                                },
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    }
+                                }
+                            ]
+                        },
+                        "logit_bias": {
+                            "mode": "chose"
+                        },
+                        "response_format": {
+                            "mode": "chose",
+                            "label": "JSON Object"
+                        },
+                        "parseJSONResponse": {
+                            "mode": "chose"
+                        },
+                        "additionalParameters": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "openai-gpt-3"
+                            },
+                            "label": "RJ Media"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:openai-gpt-3",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "select",
+                        "type": "select",
+                        "label": "Select Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "chat",
+                                "prompt"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "number",
+                        "label": "Max Tokens",
+                        "required": true
+                    },
+                    {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                            "max": 2,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "top_p",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                            "max": 1,
+                            "min": 0
+                        }
+                    },
+                    {
+                        "name": "n_completions",
+                        "type": "number",
+                        "label": "Number"
+                    },
+                    {
+                        "name": "frequency_penalty",
+                        "type": "number",
+                        "label": "Frequency Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "presence_penalty",
+                        "type": "number",
+                        "label": "Presence Penalty",
+                        "validate": {
+                            "max": 2,
+                            "min": -2
+                        }
+                    },
+                    {
+                        "name": "logit_bias",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "token",
+                                    "type": "text",
+                                    "label": "Token ID",
+                                    "required": true
+                                },
+                                {
+                                    "name": "probability",
+                                    "type": "number",
+                                    "label": "Probability",
+                                    "required": true,
+                                    "validate": {
+                                        "max": 100,
+                                        "min": -100
+                                    }
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Token Probability"
+                        },
+                        "type": "array",
+                        "label": "Token Probability"
+                    },
+                    {
+                        "name": "response_format",
+                        "type": "select",
+                        "label": "Response Format",
+                        "validate": {
+                            "enum": [
+                                "text",
+                                "json_object"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "seed",
+                        "type": "integer",
+                        "label": "Seed"
+                    },
+                    {
+                        "name": "stop",
+                        "spec": {
+                            "name": "value",
+                            "type": "text",
+                            "label": "Stop Sequence"
+                        },
+                        "type": "array",
+                        "label": "Stop Sequences",
+                        "validate": {
+                            "maxItems": 4
+                        }
+                    },
+                    {
+                        "name": "additionalParameters",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "key",
+                                    "type": "text",
+                                    "label": "Parameter Name",
+                                    "required": true
+                                },
+                                {
+                                    "name": "type",
+                                    "type": "select",
+                                    "label": "Input Type",
+                                    "options": [
+                                        {
+                                            "label": "Text",
+                                            "value": "text",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ],
+                                            "default": true
+                                        },
+                                        {
+                                            "label": "Number",
+                                            "value": "number",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "number",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Boolean",
+                                            "value": "boolean",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "boolean",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Date",
+                                            "value": "date",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "date",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Any",
+                                            "value": "any",
+                                            "nested": [
+                                                {
+                                                    "name": "value",
+                                                    "type": "any",
+                                                    "label": "Parameter Value"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Input Parameter"
+                        },
+                        "type": "array",
+                        "label": "Other Input Parameters"
+                    },
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true
+                    },
+                    {
+                        "name": "messages",
+                        "spec": {
+                            "name": "value",
+                            "spec": [
+                                {
+                                    "name": "role",
+                                    "type": "select",
+                                    "label": "Role",
+                                    "options": [
+                                        {
+                                            "label": "System",
+                                            "value": "system"
+                                        },
+                                        {
+                                            "label": "User",
+                                            "value": "user"
+                                        },
+                                        {
+                                            "label": "Assistant",
+                                            "value": "assistant"
+                                        }
+                                    ],
+                                    "required": true
+                                },
+                                {
+                                    "name": "content",
+                                    "type": "text",
+                                    "label": "Message Content"
+                                }
+                            ],
+                            "type": "collection",
+                            "label": "Message"
+                        },
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true
+                    },
+                    {
+                        "name": "parseJSONResponse",
+                        "type": "boolean",
+                        "label": "Parse JSON Response",
+                        "required": true
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 10,
+            "module": "email:ActionSendEmail",
+            "version": 7,
+            "parameters": {
+                "account": 2700011,
+                "saveAfterSent": false
+            },
+            "mapper": {
+                "cc": [],
+                "to": [
+                    "{{11.fields.`Email Address`}}"
+                ],
+                "bcc": [],
+                "from": "Nina Pioquinto",
+                "text": "We have ranked this property a {{9.result.ranking}} out of 10.\n\n{{9.result.reason}}",
+                "sender": "REDUCTED",
+                "headers": [],
+                "replyTo": "Nina@automationcrmexpert.com",
+                "subject": "Property Ranking",
+                "priority": "normal",
+                "inReplyTo": "",
+                "references": [],
+                "attachments": [],
+                "contentType": "text"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2700,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "cc": {
+                            "mode": "chose"
+                        },
+                        "to": {
+                            "mode": "chose",
+                            "items": [
+                                null
+                            ]
+                        },
+                        "bcc": {
+                            "mode": "chose"
+                        },
+                        "priority": {
+                            "label": "Normal"
+                        },
+                        "references": {
+                            "mode": "chose"
+                        },
+                        "attachments": {
+                            "mode": "chose"
+                        },
+                        "contentType": {
+                            "label": "Plaintext"
+                        }
+                    },
+                    "parameters": {
+                        "account": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "smtp"
+                            },
+                            "label": "REDUCTED"
+                        },
+                        "saveAfterSent": {
+                            "label": "No"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "account",
+                        "type": "account:smtp,google-restricted,microsoft-smtp-imap",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "saveAfterSent",
+                        "type": "select",
+                        "label": "Save message after sending",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                true,
+                                false
+                            ]
+                        }
+                    },
+                    {
+                        "type": "hidden"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "to",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address",
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "To",
+                        "required": true
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Content Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "html",
+                                "text"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "attachments",
+                        "spec": [
+                            {
+                                "name": "fileName",
+                                "type": "filename",
+                                "label": "File name",
+                                "required": true,
+                                "semantic": "file:name"
+                            },
+                            {
+                                "name": "data",
+                                "type": "buffer",
+                                "label": "Data",
+                                "required": true,
+                                "semantic": "file:data"
+                            },
+                            {
+                                "name": "cid",
+                                "type": "text",
+                                "label": "Content-ID"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Attachments"
+                    },
+                    {
+                        "name": "cc",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address"
+                        },
+                        "type": "array",
+                        "label": "Copy recipient"
+                    },
+                    {
+                        "name": "bcc",
+                        "spec": {
+                            "name": "value",
+                            "type": "email",
+                            "label": "Email address"
+                        },
+                        "type": "array",
+                        "label": "Blind copy recipient"
+                    },
+                    {
+                        "name": "from",
+                        "type": "text",
+                        "label": "From"
+                    },
+                    {
+                        "name": "sender",
+                        "type": "text",
+                        "label": "Sender"
+                    },
+                    {
+                        "name": "replyTo",
+                        "type": "text",
+                        "label": "Reply-To"
+                    },
+                    {
+                        "name": "inReplyTo",
+                        "type": "text",
+                        "label": "In-Reply-To"
+                    },
+                    {
+                        "name": "references",
+                        "spec": {
+                            "name": "value",
+                            "type": "text",
+                            "label": "Reference",
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "References"
+                    },
+                    {
+                        "name": "priority",
+                        "type": "select",
+                        "label": "Priority",
+                        "validate": {
+                            "enum": [
+                                "high",
+                                "normal",
+                                "low"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "key",
+                                "type": "text",
+                                "label": "Key",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value",
+                                "required": true
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Content"
+                    }
+                ],
+                "advanced": true
+            }
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu2.make.com",
+        "notes": []
+    }
+}
